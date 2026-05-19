@@ -1,0 +1,95 @@
+databaseChangeLog:
+  - changeSet:
+      id: 004-create-tenant
+      author: codex
+      changes:
+        - createTable:
+            tableName: tenant
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: created_time
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: version
+                  type: bigint
+              - column:
+                  name: title
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: region
+                  type: varchar(255)
+              - column:
+                  name: country
+                  type: varchar(255)
+              - column:
+                  name: state
+                  type: varchar(32)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(255)
+              - column:
+                  name: phone
+                  type: varchar(255)
+              - column:
+                  name: address
+                  type: varchar(512)
+              - column:
+                  name: additional_info
+                  type: text
+
+  - changeSet:
+      id: 005-seed-system-tenant
+      author: codex
+      changes:
+        - insert:
+            tableName: tenant
+            columns:
+              - column:
+                  name: id
+                  value: "13814000-1dd2-11b2-8080-808080808080"
+              - column:
+                  name: created_time
+                  valueNumeric: 0
+              - column:
+                  name: version
+                  valueNumeric: 0
+              - column:
+                  name: title
+                  value: "System Tenant"
+              - column:
+                  name: state
+                  value: "ACTIVE"
+
+  - changeSet:
+      id: 006-add-tenant-fk-to-admin-settings
+      author: codex
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: admin_settings
+            baseColumnNames: tenant_id
+            constraintName: fk_admin_settings_tenant
+            referencedTableName: tenant
+            referencedColumnNames: id
+
+  - changeSet:
+      id: 007-add-tenant-fk-to-user
+      author: codex
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: tb_user
+            baseColumnNames: tenant_id
+            constraintName: fk_tb_user_tenant
+            referencedTableName: tenant
+            referencedColumnNames: id

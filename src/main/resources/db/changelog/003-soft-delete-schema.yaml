@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      id: 008-add-soft-delete-columns-to-admin-settings
+      author: codex
+      changes:
+        - addColumn:
+            tableName: admin_settings
+            columns:
+              - column:
+                  name: deleted
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: deleted_time
+                  type: bigint
