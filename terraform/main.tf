@@ -6,11 +6,12 @@ terraform {
     }
   }
 
+  # Giữ nguyên cấu hình backend này để đọc bộ nhớ trong con Storage Account cũ
   backend "azurerm" {
     resource_group_name  = "rg-springboot-practice"
-    storage_account_name = "vtlamstoragestate"     # Tên Storage Account thực tế của Lâm
-    container_name       = "tfstate"                # Tên container bạn vừa tạo bằng tay
-    key                  = "terraform.tfstate"       # Tên file trạng thái sẽ tự sinh ra
+    storage_account_name = "vtlamstoragestate"
+    container_name       = "tfstate"
+    key                  = "terraform.tfstate"
   }
 }
 
@@ -18,38 +19,38 @@ provider "azurerm" {
   features {}
 }
 
-# 1. Tạo một cái hộp chứa (Resource Group) tên là rg-springboot-practice
+# 1. 🚀 ĐỔI TÊN Ở ĐÂY: Tạo một cái rổ MỚI TINH tên là rg-springboot-prod để chứa App
 resource "azurerm_resource_group" "rg" {
-  name     = "rg-springboot-practice"
+  name     = "rg-springboot-prod" # <--- Chỉ cần đổi chỗ này sang tên mới tinh thôi!
   location = "southeastasia"
 }
 
-# 2. Tạo gói cấu hình Service Plan (Chọn cấu hình F1 - FREE)
+# 2. Tạo gói cấu hình Service Plan (Tự động ăn theo rổ mới rg-springboot-prod)
 resource "azurerm_service_plan" "plan" {
   name                = "plan-springboot"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
   os_type             = "Linux"
-  sku_name            = "F1" # <--- Gói MIỄN PHÍ của Azure
+  sku_name            = "F1"
 }
 
-# 3. Tạo một con App Service để kéo Docker image về chạy ứng dụng Web
+# 3. Tạo App Service (Tự động ăn theo rổ mới rg-springboot-prod)
 resource "azurerm_linux_web_app" "app" {
-  name                = "app-springboot-backend-lamvu" # Tên này trên Azure không được trùng với ai, nếu trùng bạn đổi đuôi chữ đi nhé
+  name                = "app-springboot-backend-lamvu"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
   service_plan_id     = azurerm_service_plan.plan.id
 
   site_config {
-    always_on = false # Bắt buộc chọn false đối với gói F1 Free
+    always_on = false
     application_stack {
-      docker_image_name   = "vtlamdev/source-base:latest" # Ban đầu cho chạy tạm nginx, các lần sau nó sẽ tự sync image mới
+      docker_image_name   = "vtlamdev/source-base:latest"
       docker_registry_url = "https://ghcr.io"
     }
   }
 
   app_settings = {
-    "WEBSITES_PORT" = "8080" # Cổng chạy mặc định bên trong container của Spring Boot
+    "WEBSITES_PORT"                   = "8080"
     "DOCKER_REGISTRY_SERVER_URL"      = "https://ghcr.io"
     "DOCKER_REGISTRY_SERVER_USERNAME" = "vtlamdev"
   }
