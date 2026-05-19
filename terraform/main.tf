@@ -5,6 +5,13 @@ terraform {
       version = "~> 3.0"
     }
   }
+
+  backend "azurerm" {
+    resource_group_name  = "rg-springboot-practice"
+    storage_account_name = "vtlamstoragestate"     # Tên Storage Account thực tế của Lâm
+    container_name       = "tfstate"                # Tên container bạn vừa tạo bằng tay
+    key                  = "terraform.tfstate"       # Tên file trạng thái sẽ tự sinh ra
+  }
 }
 
 provider "azurerm" {
