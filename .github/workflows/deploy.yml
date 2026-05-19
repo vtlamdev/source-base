@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     env:
       REGISTRY: ghrc.io
       IMAGE_NAME: ${{ github.repository }}
