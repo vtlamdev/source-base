@@ -36,12 +36,14 @@ resource "azurerm_linux_web_app" "app" {
   site_config {
     always_on = false # Bắt buộc chọn false đối với gói F1 Free
     application_stack {
-      docker_image_name   = "nginx:latest" # Ban đầu cho chạy tạm nginx, các lần sau nó sẽ tự sync image mới
-      docker_registry_url = "https://index.docker.io/v1"
+      docker_image_name   = "vtlamdev/source-base:latest" # Ban đầu cho chạy tạm nginx, các lần sau nó sẽ tự sync image mới
+      docker_registry_url = "https://ghcr.io"
     }
   }
 
   app_settings = {
     "WEBSITES_PORT" = "8080" # Cổng chạy mặc định bên trong container của Spring Boot
+    "DOCKER_REGISTRY_SERVER_URL"      = "https://ghcr.io"
+    "DOCKER_REGISTRY_SERVER_USERNAME" = "vtlamdev"
   }
 }
