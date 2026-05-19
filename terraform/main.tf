@@ -14,7 +14,7 @@ provider "azurerm" {
 # 1. Tạo một cái hộp chứa (Resource Group) tên là rg-springboot-practice
 resource "azurerm_resource_group" "rg" {
   name     = "rg-springboot-practice"
-  location = "East US"
+  location = "southeastasia"
 }
 
 # 2. Tạo gói cấu hình Service Plan (Chọn cấu hình F1 - FREE)
