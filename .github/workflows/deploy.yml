@@ -12,7 +12,7 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     env:
-      REGISTRY: ghrc.io
+      REGISTRY: ghcr.io
       IMAGE_NAME: ${{ github.repository }}
 
     steps:
