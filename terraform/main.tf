@@ -100,19 +100,19 @@ resource "azurerm_linux_web_app" "app" {
   }
 
   app_settings = {
-    "WEBSITES_PORT"                         = "8080"
-    "DOCKER_REGISTRY_SERVER_URL"            = var.docker_registry_url
-    "DOCKER_REGISTRY_SERVER_USERNAME"       = var.docker_registry_username
-    "SPRING_DATASOURCE_URL"                 = "jdbc:postgresql://${azurerm_postgresql_flexible_server.postgres.fqdn}:5432/${azurerm_postgresql_flexible_server_database.database.name}?sslmode=require"
-    "SPRING_DATASOURCE_USERNAME"            = azurerm_postgresql_flexible_server.postgres.administrator_login
-    "SPRING_DATASOURCE_PASSWORD"            = random_password.postgres_admin.result
-    "SPRING_DATA_REDIS_HOST"                = azurerm_redis_cache.redis.hostname
-    "SPRING_DATA_REDIS_PORT"                = tostring(azurerm_redis_cache.redis.ssl_port)
-    "SPRING_DATA_REDIS_PASSWORD"            = azurerm_redis_cache.redis.primary_access_key
-    "SPRING_DATA_REDIS_SSL_ENABLED"         = "true"
-    "SOURCE_BASE_JWT_TOKEN_SIGNING_KEY"     = random_id.jwt_signing_key.b64_std
-    "HIBERNATE_SQL_LOG_LEVEL"               = "INFO"
-    "HIBERNATE_BIND_LOG_LEVEL"              = "INFO"
+    "WEBSITES_PORT"                     = "8080"
+    "DOCKER_REGISTRY_SERVER_URL"        = var.docker_registry_url
+    "DOCKER_REGISTRY_SERVER_USERNAME"   = var.docker_registry_username
+    "SPRING_DATASOURCE_URL"             = "jdbc:postgresql://${azurerm_postgresql_flexible_server.postgres.fqdn}:5432/${azurerm_postgresql_flexible_server_database.database.name}?sslmode=require"
+    "SPRING_DATASOURCE_USERNAME"        = azurerm_postgresql_flexible_server.postgres.administrator_login
+    "SPRING_DATASOURCE_PASSWORD"        = random_password.postgres_admin.result
+    "SPRING_DATA_REDIS_HOST"            = azurerm_redis_cache.redis.hostname
+    "SPRING_DATA_REDIS_PORT"            = tostring(azurerm_redis_cache.redis.ssl_port)
+    "SPRING_DATA_REDIS_PASSWORD"        = azurerm_redis_cache.redis.primary_access_key
+    "SPRING_DATA_REDIS_SSL_ENABLED"     = "true"
+    "SOURCE_BASE_JWT_TOKEN_SIGNING_KEY" = random_id.jwt_signing_key.b64_std
+    "HIBERNATE_SQL_LOG_LEVEL"           = "INFO"
+    "HIBERNATE_BIND_LOG_LEVEL"          = "INFO"
   }
 
   depends_on = [
