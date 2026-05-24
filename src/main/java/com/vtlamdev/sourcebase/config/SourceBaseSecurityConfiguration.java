@@ -32,6 +32,7 @@ public class SourceBaseSecurityConfiguration {
                     "/actuator/health",
                     "/actuator/info",
                     "/api/auth/login",
+                    "/api/public/**",
                     "/api/auth/register",
                     "/api/auth/token",
                     "/swagger-ui/**",
